@@ -1,0 +1,116 @@
+body {
+  background-color: #00000f;
+  color: orange;
+}
+
+@font-face {
+  font-family: FrontageCondensed-Outline;
+  src: url(fonts/FrontageCondensed-Outline.otf);
+}
+
+h1,
+h2 {
+  font-family: FrontageCondensed-Outline, Times, serif;
+}
+
+h1 {
+  font-size: 7em;
+  margin-bottom: 15px;
+}
+
+h2 {
+  font-size: 3em;
+  margin-bottom: 30px;
+}
+
+a,
+a:link {
+  color: orange;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.font-size-normal {
+  display: inline;
+}
+
+.float-right {
+  float: right;
+}
+
+.list-brief {
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+.movie-rank {
+  font-family: FrontageCondensed-Outline, Times, serif;
+  font-size: 1.875em;
+}
+
+.movie-title {
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+.movie {
+  text-align: center;
+  margin: auto;
+  width: 80%;
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 75px;
+  background-color: #00000f;
+}
+
+.movie-separator {
+  min-height: 25px;
+  width: 80%;
+  margin: auto;
+  border-radius: 8px;
+  /** debug **/
+  /*
+  border-radius: 4px;
+  border: 1px dashed white;
+  */
+}
+
+.movie-separator-hover {
+  background-color: rgba(216, 109, 2, 0.3);
+}
+
+.drop-below {
+  display: none;
+}
+
+/** transitions **/
+.movie {
+  box-shadow: 0 1px 2px rgba(216, 109, 2, 0.1);
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.movie::after {
+  content: "";
+  border-radius: 5px;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 5px 15px rgba(216, 109, 2, 0.3);
+  opacity: 0;
+  -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.movie:hover {
+  -webkit-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
+}
+
+.movie:hover::after {
+    opacity: 1;
+}

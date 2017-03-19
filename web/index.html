@@ -1,0 +1,61 @@
+<!doctype html>
+<html ng-app="superApp">
+
+  <head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+    <script src="js/super.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/super.css">
+  </head>
+
+  <body>
+    <header>
+      <h1 class="text-center">MySuperCineList</h1>
+      <nav class="text-center">
+          <a href="index.html">Accueil</a> - 
+          <a href="index.html">Mes Supers Listes</a> - 
+          <a href="index.html">Liste aléatoire</a>
+      </nav>
+    </header>
+    <article>
+    <div id="superListControllerID" class="text-center" ng-controller="SuperListController as superList">
+      <h2>- {{superList.title}} -</h2>
+
+      <section>
+        <p class="list-brief">
+          {{superList.brief}}
+        </p>
+      </section>
+
+      <a href="edit.html" class="btn btn-default">Modifier <span class="glyphicon glyphicon-pencil font-size-normal"></span></a>
+
+      <section>
+        <div class="container-fluid text-center">
+          <div ng-repeat="movie in superList.movies">
+            <div class="movie" ng-if="movie.rank != 0">
+              <span class="movie-rank">
+                {{movie.rank}}
+              </span>
+              <br>
+              <span class="movie-title">{{movie.title}}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div>
+      <nav class="text-center">
+        <h3>Du même auteur :</h3>
+        <a href="index.html">Liste ultime Années 70</a><br>
+        <a href="index.html">Liste ultime Années 80</a><br>
+        <a href="index.html">Liste ultime Années 90</a><br>
+        <a href="index.html">Liste ultime Années 2000</a><br>
+        <a href="index.html">Liste ultime X-men</a><br>
+        <a href="index.html">Liste ultime Resident Evil</a><br>
+      </nav>
+    </div>
+
+  </body>
+</html>

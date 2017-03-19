@@ -1,26 +1,12 @@
 angular.module('superApp', [])
-  .controller('SuperListController', function() {
+  .controller('SuperListController', function($http) {
     var superList = this;
-    superList.title = "Liste ultime Années 80";
-    superList.brief = "La liste ultime des années 80 par Papa et Kamui, gravée dans le marbre, à jamais, sans aucune mauvaise foi."
-    superList.movies = [
-      {title:'Robocop', rank:1},
-      {title:'Die Hard', rank:2},
-      {title:'Akira', rank:3},
-      {title:'Blade Runner', rank:4},
-      {title:'Raiders of the Lost Ark', rank:5},
-      {title:'The Abyss', rank:6},
-      {title:'The Thing', rank:7},
-      {title:'Full Metal Jacket', rank:8},
-      {title:'Back to the Future', rank:9},
-      {title:'Mon voisin Totoro', rank:10}
-    ];
- 
     superList.addMovie = function() {
       if (superList.newMovieTitle == '') {
         return;
       }
-      superList.movies.push({title:superList.newMovieTitle, rank:superList.movies.length == 0 ? 1 : 0, done:false});
+      console.log("push new movie " + superList.newMovieTitle);
+      superList.movies.push({title:superList.newMovieTitle, rank:superList.movies.length == 0 ? 1 : 0});
       superList.newMovieTitle = '';
       superList.refresh();
     };
@@ -76,17 +62,34 @@ angular.module('superApp', [])
       });
     }
 
-    superList.refresh();
+    superList.updateList = function() {
+      $http.put('http://localhost:8000/list/1',
+                {
+                  "title": superList.title,
+                  "brief": superList.brief,
+                  "movies": JSON.stringify(superList.movies)
+                }
+      );
+    }
+  
+    $http.get('http://localhost:8000/list/1')
+         .then(function(response) {
+        superList.title = response.data.name;
+        superList.brief = response.data.brief;
+        superList.movies = JSON.parse(response.data.movies);
+      });
   });
 
 function drag(ev) {
+  console.log(ev.originalTarget.getElementsByClassName('movie')[0]);
+
   ev.dataTransfer.setData(
     'title',
-    ev.path[0].getElementsByClassName('movie')[0].getAttribute("data-movie-title")
+    ev.originalTarget.getElementsByClassName('movie')[0].getAttribute("data-movie-title")
   );
   ev.dataTransfer.setData(
     'rank',
-    ev.path[0].getElementsByClassName('movie')[0].getAttribute("data-movie-rank")
+    ev.originalTarget.getElementsByClassName('movie')[0].getAttribute("data-movie-rank")
   );
 }
 

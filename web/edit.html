@@ -10,10 +10,10 @@
   </head>
 
   <body>
-    <h1 class="text-center">MySuperCineList</h1>
+    <h1 class="text-center"><a href="index.html">MySuperCineList</a></h1>
 
     <div id="superListControllerID" class="text-center" ng-controller="SuperListController as superList">
-      <h2>- {{superList.title}} -</h2>
+      <h2>- <a href="index.html">{{superList.title}}</a> -</h2>
       <p class="list-brief">
         {{superList.brief}}
       </p>
@@ -33,14 +33,14 @@
             </div>
           </div>
           <div class="form-group">
-              <label class="col-sm-2 control-label">Film</label>
-              <div class="col-sm-9">
-                <input type="text" ng-model="superList.newMovieTitle" class="form-control" placeholder="Ajouter un film" required="required">
+              <div class="text-center">
+                <input type="text" ng-model="superList.newMovieTitle" style="display: inline-block;color: black;" placeholder="Ajouter un film" required="required">
                 <button class="btn btn-default" type="submit">
                   <span class="glyphicon glyphicon-plus"></span>
                 </button>
               </div>
           </div>
+          <a href="" class="btn btn-default" ng-click="superList.updateList()"><strong>Enregistrer</strong> <span class="glyphicon glyphicon-floppy-disk"></span></a>
         </form>
       </div>
 

@@ -8,9 +8,10 @@ class SuperListController extends Controller
 {
     public function getList($id)
     {
-        $results = app('db')->select("SELECT * 
-                                      FROM list 
-                                      WHERE id=$id");
+        $results = app('db')->select("SELECT l.name, l.brief, l.movies, l.author, count(r.userHash) as recos
+                                      FROM list l
+                                      LEFT JOIN reco r ON l.id = r.listId 
+                                      WHERE l.id=$id");
         if (!$results || count($results) == 0) {
             return [];
         }
@@ -59,6 +60,20 @@ class SuperListController extends Controller
             return [];
         }
         return json_encode($results);
+    }
+
+    public function addReco($id)
+    {
+        $userHash = md5($_SERVER['REMOTE_ADDR']);
+        app('db')->insert("INSERT IGNORE reco (listId, userHash) 
+                           VALUES ($id, '$userHash')");
+        $recos = app('db')->select("SELECT count(*) as recos
+                                    FROM reco
+                                    WHERE listId = $id");
+        if (count($recos) === 0) {
+            return 0;
+        }
+        return json_encode($recos[0]);
     }
 }
 

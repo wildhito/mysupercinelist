@@ -20,7 +20,7 @@ h1 {
 
 h2 {
   font-size: 3em;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 a,
@@ -31,6 +31,13 @@ a:link {
 a:hover {
   color: white;
   text-decoration: none;
+}
+
+.recos {
+  float: right;
+  font-size: 2em;
+  font-family: FrontageCondensed-Outline, Times, serif;
+  margin-right: 30px;
 }
 
 .font-size-normal {

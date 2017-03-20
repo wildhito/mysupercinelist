@@ -71,12 +71,27 @@ angular.module('superApp', [])
                 }
       );
     }
+
+    superList.enableReco = true;
+
+    superList.reco = function() {
+        if (!superList.enableReco) {
+            return;
+        }
+        $http.get('http://localhost:8000/reco/1')
+             .then(function(response) {
+            console.log(response.data);
+            superList.recos = response.data.recos;
+            superList.enableReco = false;
+        });
+    }
   
     $http.get('http://localhost:8000/list/1')
          .then(function(response) {
         superList.title = response.data.name;
         superList.brief = response.data.brief;
         superList.movies = JSON.parse(response.data.movies);
+        superList.recos = response.data.recos;
       });
   });
 

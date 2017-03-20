@@ -14,3 +14,5 @@ $app->put('list/{id}', 'SuperListController@updateList');
 
 $app->delete('list/{id}', 'SuperListController@deleteList');
 
+$app->get('reco/{id}', 'SuperListController@addReco');
+

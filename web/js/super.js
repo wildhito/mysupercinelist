@@ -1,5 +1,5 @@
 angular.module('superApp', [])
-  .controller('SuperListController', function($http) {
+  .controller('SuperListController', function($http, $location, $scope) {
     var superList = this;
     superList.addMovie = function() {
       if (superList.newMovieTitle == '') {
@@ -63,7 +63,7 @@ angular.module('superApp', [])
     }
 
     superList.updateList = function() {
-      $http.put('http://localhost:8000/list/1',
+      $http.put('http://localhost:8000/list/' + superList.id,
                 {
                   "title": superList.title,
                   "brief": superList.brief,
@@ -78,22 +78,39 @@ angular.module('superApp', [])
         if (!superList.enableReco) {
             return;
         }
-        $http.get('http://localhost:8000/reco/1')
+        $http.get('http://localhost:8000/reco/' + superList.id)
              .then(function(response) {
             console.log(response.data);
             superList.recos = response.data.recos;
             superList.enableReco = false;
         });
     }
+
+    superList.id = getParameterByName('id', 1);
   
-    $http.get('http://localhost:8000/list/1')
+    $http.get('http://localhost:8000/list/' + superList.id)
          .then(function(response) {
         superList.title = response.data.name;
         superList.brief = response.data.brief;
         superList.movies = JSON.parse(response.data.movies);
         superList.recos = response.data.recos;
+        superList.author = response.data.author;
+        superList.otherLists = response.data.otherLists;
+        console.log(superList.movies);
+        console.log(superList.otherLists);
       });
-  });
+
+  });  // end controller
+
+function getParameterByName(name, defaultValue) {
+    url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return defaultValue;
+    if (!results[2]) return defaultValue;
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 function drag(ev) {
   console.log(ev.originalTarget.getElementsByClassName('movie')[0]);

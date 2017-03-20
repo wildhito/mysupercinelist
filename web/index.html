@@ -3,6 +3,7 @@
 
   <head>
     <meta charset="UTF-8">
+    <title>MySuperCineList</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
     <script src="js/super.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -45,19 +46,18 @@
           </div>
         </div>
       </section>
-    </div>
 
-    <div>
-      <nav class="text-center">
-        <h3>Du même auteur :</h3>
-        <a href="index.html">Liste ultime Années 70</a><br>
-        <a href="index.html">Liste ultime Années 80</a><br>
-        <a href="index.html">Liste ultime Années 90</a><br>
-        <a href="index.html">Liste ultime Années 2000</a><br>
-        <a href="index.html">Liste ultime X-men</a><br>
-        <a href="index.html">Liste ultime Resident Evil</a><br>
-      </nav>
+      <div>
+        <nav class="text-center">
+          <h3>Du même auteur :</h3>
+                <section>
+          <div class="container-fluid text-center">
+            <div ng-repeat="list in superList.otherLists">
+              <a href="?id={{list.id}}">{{list.name}}</a><br>
+            </div>
+          </div>
+        </nav>
+      </div>
     </div>
-
   </body>
 </html>

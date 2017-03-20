@@ -16,7 +16,20 @@ class SuperListController extends Controller
             return [];
         }
 
+        $results[0]->otherLists = $this->_getListsByAuthor($results[0]->author);
         return json_encode($results[0]);
+    }
+
+    private function _getListsByAuthor($author)
+    {
+        $results = app('db')->select("SELECT name, id
+                                      FROM list
+                                      WHERE author LIKE '$author'
+                                      ORDER BY name ASC");
+        if (!$results || count($results) == 0) {
+            return [];
+        }
+        return $results;
     }
 
     public function createList(Request $request)
@@ -49,17 +62,6 @@ class SuperListController extends Controller
     {
         app('db')->delete("DELETE FROM list 
                            WHERE id=$id");
-    }
-
-    public function getAuthorLists($author)
-    {
-        $results = app('db')->select("SELECT name 
-                                      FROM list 
-                                      WHERE author LIKE '$author'");
-        if (!$results || count($results) == 0) {
-            return [];
-        }
-        return json_encode($results);
     }
 
     public function addReco($id)

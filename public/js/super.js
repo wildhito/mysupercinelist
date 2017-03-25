@@ -7,7 +7,6 @@ angular.module('superApp', [])
       if (superList.newMovieTitle == '') {
         return;
       }
-      console.log("push new movie " + superList.newMovieTitle);
       superList.movies.push({title:superList.newMovieTitle, rank:superList.movies.length == 0 ? 1 : 0});
       superList.newMovieTitle = '';
       superList.refresh();
@@ -17,7 +16,6 @@ angular.module('superApp', [])
     superList.moveMovie = function(movie, newRank) {
       if (newRank > movie.rank) {
         if (movie.rank == 0) {
-          console.log("Move a 0 ranked movie");
           superList.movies.filter((m) => m.rank >= newRank)
                           .forEach((m) => m.rank++);
         } else {
@@ -37,7 +35,6 @@ angular.module('superApp', [])
 
     // handle drop movie action
     superList.dropMovie = function(title, rank) {
-      console.log("drop " + title + " to rank " + rank);
       movie = superList.movies.filter(m => m.title == title)[0];
       superList.moveMovie(movie, rank);
     }
@@ -59,7 +56,6 @@ angular.module('superApp', [])
 
     // sort movies by rank
     superList.refresh = function() {
-      console.log("refresh");
       superList.movies.sort((a, b) => {
         if (a.rank > b.rank) {
           return 1;
@@ -88,7 +84,6 @@ angular.module('superApp', [])
         }
         $http.get('http://localhost:8000/reco/' + superList.id)
              .then(function(response) {
-            console.log(response.data);
             superList.recos = response.data.recos;
             superList.enableReco = false;
         });
@@ -103,7 +98,6 @@ angular.module('superApp', [])
         superList.public = (response.data.public == 1);
         superList.movies = JSON.parse(response.data.movies);
         superList.recos = response.data.recos;
-        console.log(superList.movies);
       });
 
   });  // end controller

@@ -53,7 +53,7 @@
             Enregistré <span class="glyphicon glyphicon-ok"></span>
           </div>
           <div class="btn alert-danger list-alert" role="alert" ng-show="superList.showError">
-            Echec de l'enregistrement <span class="glyphicon glyphicon-cross"></span>
+            Echec de l'enregistrement <span class="glyphicon glyphicon-remove"></span>
           </div>
         </form>
       </div>
@@ -78,8 +78,16 @@
             <div class="drop-below" data-movie-rank="{{movie.rank}}"></div>
           </div>
         </div>
+        <div>
+          <a class="btn btn-danger" href="" ng-click="superList.removeList()" ng-disabled="superList.removeDisabled">
+            Supprimer la liste <span class="glyphicon glyphicon-trash"></span>
+          </a>
+          <div class="btn alert-danger list-alert" role="alert" ng-show="superList.showRemovalError">
+            Echec de la suppression <span class="glyphicon glyphicon-remove"></span>
+          </div>
+        </div>
       </div>
-
+    
     </div>
   </body>
 </html>

@@ -67,10 +67,14 @@ class SuperListController extends Controller
                            WHERE id = $id");
     }
 
-    public function deleteList($id)
+    public function deleteList(Request $request, $id)
     {
-        app('db')->delete("DELETE FROM list 
-                           WHERE id=$id");
+        $this->requireMagic($request, $id);
+        $dbRes = app('db')->delete("DELETE FROM list 
+                                    WHERE id=$id");
+        if (!$dbRes) {
+            abort(500);
+        }
     }
 
     public function addReco($id)

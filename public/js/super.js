@@ -1,6 +1,8 @@
 angular.module('superApp', [])
   .controller('SuperListController', function($http, $location, $scope) {
     var superList = this;
+
+    // local add movie
     superList.addMovie = function() {
       if (superList.newMovieTitle == '') {
         return;
@@ -11,6 +13,7 @@ angular.module('superApp', [])
       superList.refresh();
     };
 
+    // local move movie
     superList.moveMovie = function(movie, newRank) {
       if (newRank > movie.rank) {
         if (movie.rank == 0) {
@@ -32,12 +35,14 @@ angular.module('superApp', [])
       superList.newRank = 0;
     };
 
+    // handle drop movie action
     superList.dropMovie = function(title, rank) {
       console.log("drop " + title + " to rank " + rank);
       movie = superList.movies.filter(m => m.title == title)[0];
       superList.moveMovie(movie, rank);
     }
 
+    // local delete movie
     superList.deleteMovie = function(movie) {
       var index = superList.movies.indexOf(movie);
       if (index == -1) {
@@ -52,6 +57,7 @@ angular.module('superApp', [])
       superList.refresh();
     }
 
+    // sort movies by rank
     superList.refresh = function() {
       console.log("refresh");
       superList.movies.sort((a, b) => {
@@ -62,12 +68,14 @@ angular.module('superApp', [])
       });
     }
 
+    // remote list update
     superList.updateList = function() {
       $http.put('http://localhost:8000/list/' + superList.id,
                 {
                   "title": superList.title,
                   "brief": superList.brief,
-                  "movies": JSON.stringify(superList.movies)
+                  "movies": JSON.stringify(superList.movies),
+                  "public": superList.public
                 }
       );
     }
@@ -92,12 +100,10 @@ angular.module('superApp', [])
          .then(function(response) {
         superList.title = response.data.name;
         superList.brief = response.data.brief;
+        superList.public = (response.data.public == 1);
         superList.movies = JSON.parse(response.data.movies);
         superList.recos = response.data.recos;
-        superList.author = response.data.author;
-        superList.otherLists = response.data.otherLists;
         console.log(superList.movies);
-        console.log(superList.otherLists);
       });
 
   });  // end controller

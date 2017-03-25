@@ -8,7 +8,8 @@ class SuperListController extends Controller
 {
     public function getList($id)
     {
-        $results = app('db')->select("SELECT l.name, l.brief, l.movies, l.author, count(r.userHash) as recos
+        $results = app('db')->select("SELECT l.name, l.brief, l.movies, count(r.userHash) as recos,
+                                      l.public, l.official, l.createdAt, l.modifiedAt
                                       FROM list l
                                       LEFT JOIN reco r ON l.id = r.listId 
                                       WHERE l.id=$id");
@@ -16,45 +17,37 @@ class SuperListController extends Controller
             return [];
         }
 
-        $results[0]->otherLists = $this->_getListsByAuthor($results[0]->author);
         return json_encode($results[0]);
-    }
-
-    private function _getListsByAuthor($author)
-    {
-        $results = app('db')->select("SELECT name, id
-                                      FROM list
-                                      WHERE author LIKE '$author'
-                                      ORDER BY name ASC");
-        if (!$results || count($results) == 0) {
-            return [];
-        }
-        return $results;
     }
 
     public function createList(Request $request)
     {
-        $name = $request->input('title');
-        $brief = $request->input('brief');
+        $name = $this->sanitizeString($request->input('title'));
+        $brief = $this->sanitizeString($request->input('brief'));
         if (!$name || $brief) {
             return;
         }
-        app('db')->insert("INSERT INTO list(name, brief)
-                           VALUES ('$name', '$brief')");
+        app('db')->insert("INSERT INTO list(name, brief, createdAt, modifiedAt)
+                           VALUES ('$name', '$brief', now(), now())");
     }
 
     public function updateList(Request $request, $id)
     {
-        $name = $request->input('title');
-        $brief = $request->input('brief');
+        $name = $this->sanitizeString($request->input('title'));
+        $brief = $this->sanitizeString($request->input('brief'));
+        $public = $this->sanitizeInteger($request->input('public'));
+        $official = 0;
         if (!$name || !$brief) {
             return;
         }
-        $movies = $request->input('movies');
+        $movies = $this->sanitizeMovies($request->input('movies'));
         app('db')->update("UPDATE list 
                            SET name = '$name',
                                brief = '$brief',
-                               movies = '$movies'
+                               movies = '$movies',
+                               public = $public,
+                               official = $official,
+                               modifiedAt = now()
                            WHERE id = $id");
     }
 
@@ -76,6 +69,38 @@ class SuperListController extends Controller
             return 0;
         }
         return json_encode($recos[0]);
+    }
+
+    private function sanitizeString($userInput)
+    {
+        $res = strip_tags(trim($userInput));
+        return $res;
+    }
+
+    private function sanitizeInteger($userInput)
+    {
+        $res = intval($userInput);
+        return $res;
+    }
+
+    private function sanitizeMovies($userInput)
+    {
+        $movies = json_decode($userInput);
+        if (!is_array($movies)) {
+            return null;
+        }
+
+        $res = array();
+        foreach($movies as $movie) {
+            if (!property_exists($movie, "title") || !property_exists($movie, "rank")) {
+                continue;
+            }
+            $res[] = [
+                "title" => $this->sanitizeString($movie->title),
+                "rank"  => $this->sanitizeInteger($movie->rank),
+            ];
+        }
+        return json_encode($res);
     }
 }
 

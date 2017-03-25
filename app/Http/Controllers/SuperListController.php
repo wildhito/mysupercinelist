@@ -34,7 +34,7 @@ class SuperListController extends Controller
         }
         $magic = $this->generateMagic();
         $dbRes = app('db')->insert("INSERT INTO list(name, brief, createdAt, modifiedAt, magic)
-                                    VALUES ('$name', '$brief', now(), now(), '$magic')");
+                                    VALUES ($name, $brief, now(), now(), '$magic')");
         if (!$dbRes) {
           abort(500, "DB error");
         }
@@ -58,8 +58,8 @@ class SuperListController extends Controller
         }
         $movies = $this->sanitizeMovies($request->input('movies'));
         app('db')->update("UPDATE list 
-                           SET name = '$name',
-                               brief = '$brief',
+                           SET name = $name,
+                               brief = $brief,
                                movies = '$movies',
                                public = $public,
                                official = $official,
@@ -90,6 +90,7 @@ class SuperListController extends Controller
     private function sanitizeString($userInput)
     {
         $res = strip_tags(trim($userInput));
+        $res = app('db')->connection()->getPdo()->quote($res);
         return $res;
     }
 
@@ -112,7 +113,7 @@ class SuperListController extends Controller
                 continue;
             }
             $res[] = [
-                "title" => $this->sanitizeString($movie->title),
+                "title" => trim($this->sanitizeString($movie->title), "'"),
                 "rank"  => $this->sanitizeInteger($movie->rank),
             ];
         }
@@ -141,7 +142,7 @@ class SuperListController extends Controller
        $dbRes = app('db')->select("SELECT id
                                    FROM list
                                    WHERE id = $id
-                                   AND magic = '$magic'");
+                                   AND magic = $magic");
       if (!$dbRes) {
         abort(403);
       }

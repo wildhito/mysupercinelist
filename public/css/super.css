@@ -45,6 +45,13 @@ a:hover {
   margin-right: 30px;
 }
 
+.social {
+  margin-top: 50px;
+  margin-right: 20px;
+  float: right;
+  text-align: right;
+}
+
 .font-size-normal {
   display: inline;
 }

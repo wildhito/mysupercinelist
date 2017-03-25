@@ -88,6 +88,22 @@ angular.module('superApp', [])
       });
     }
 
+    // remote list remove
+    superList.removeList = function() {
+      if (!window.confirm("Etes-vous sûr de vouloir supprimer cette liste ?")) {
+        return;
+      }
+      superList.removeDisabled = true;
+      $http.delete('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic)
+           .then(function() {
+             window.location = "/";
+           }, function() {
+             superList.showRemovalError = true;
+             superList.removeDisabled = false;
+             $timeout(() => superList.showRemovalError = false, 3000);
+           });
+    }
+
     superList.newMovieTitle = '';
     superList.enableReco = true;
 
@@ -108,6 +124,7 @@ angular.module('superApp', [])
     $http.get('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic)
          .then(function(response) {
         superList.title = response.data.name;
+        superList.uriEncodedTitle = encodeURI(superList.title);
         superList.brief = response.data.brief;
         superList.public = (response.data.public == 1);
         superList.movies = JSON.parse(response.data.movies);

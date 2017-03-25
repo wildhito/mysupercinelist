@@ -14,7 +14,7 @@ class SuperListController extends Controller
                                       LEFT JOIN reco r ON l.id = r.listId 
                                       WHERE l.id=$id");
         if (!$results || count($results) == 0) {
-            return [];
+            abort(404);
         }
 
         return json_encode($results[0]);
@@ -24,8 +24,8 @@ class SuperListController extends Controller
     {
         $name = $this->sanitizeString($request->input('title'));
         $brief = $this->sanitizeString($request->input('brief'));
-        if (!$name || $brief) {
-            return;
+        if (!$name || !$brief) {
+            abort(500, "Bad arguments");
         }
         app('db')->insert("INSERT INTO list(name, brief, createdAt, modifiedAt)
                            VALUES ('$name', '$brief', now(), now())");
@@ -38,7 +38,7 @@ class SuperListController extends Controller
         $public = $this->sanitizeInteger($request->input('public'));
         $official = 0;
         if (!$name || !$brief) {
-            return;
+            abort(500, "Bad arguments");
         }
         $movies = $this->sanitizeMovies($request->input('movies'));
         app('db')->update("UPDATE list 
@@ -66,7 +66,7 @@ class SuperListController extends Controller
                                     FROM reco
                                     WHERE listId = $id");
         if (count($recos) === 0) {
-            return 0;
+            abort(500);
         }
         return json_encode($recos[0]);
     }

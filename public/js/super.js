@@ -1,11 +1,14 @@
 angular.module('superApp', [])
-  .controller('SuperListController', function($http, $location, $scope) {
+  .controller('SuperListController', function($http, $timeout) {
     var superList = this;
 
     // local add movie
     superList.addMovie = function() {
       if (superList.newMovieTitle == '') {
         return;
+      }
+      if (superList.movies == null) {
+        superList.movies = [];
       }
       superList.movies.push({title:superList.newMovieTitle, rank:superList.movies.length == 0 ? 1 : 0});
       superList.newMovieTitle = '';
@@ -66,14 +69,23 @@ angular.module('superApp', [])
 
     // remote list update
     superList.updateList = function() {
-      $http.put('http://localhost:8000/list/' + superList.id,
+     superList.saveDisabled = true; 
+     $http.put('http://localhost:8000/list/' + superList.id,
                 {
                   "title": superList.title,
                   "brief": superList.brief,
                   "movies": JSON.stringify(superList.movies),
                   "public": superList.public
                 }
-      );
+      ).then(function() {
+        superList.saveDisabled = false; 
+        superList.showSuccess = true;
+        $timeout(() => superList.showSuccess = false, 3000);
+      }, function() {
+        superList.saveDisabled = false;
+        superList.showError = true;
+        $timeout(() => superList.showError = false, 3000);
+      });
     }
 
     superList.enableReco = true;
@@ -90,6 +102,7 @@ angular.module('superApp', [])
     }
 
     superList.id = getParameterByName('id', 1);
+
   
     $http.get('http://localhost:8000/list/' + superList.id)
          .then(function(response) {

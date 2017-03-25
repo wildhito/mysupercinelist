@@ -52,6 +52,9 @@ a:hover {
   font-family: "Lucida Console", Monaco, monospace;
 }
 
+.list-alert {
+}
+
 .movie-rank {
   font-family: FrontageCondensed-Outline, Times, serif;
   font-size: 1.875em;

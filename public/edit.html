@@ -47,7 +47,13 @@
                 </button>
               </div>
           </div>
-          <a href="" class="btn btn-default" ng-click="superList.updateList()"><strong>Enregistrer</strong> <span class="glyphicon glyphicon-floppy-disk"></span></a>
+          <a href="" class="btn btn-default" ng-click="superList.updateList()" ng-disabled="superList.saveDisabled"><strong>Enregistrer</strong> <span class="glyphicon glyphicon-floppy-disk"></span></a>
+          <div class="btn alert-success list-alert" role="alert" ng-show="superList.showSuccess">
+            Enregistré <span class="glyphicon glyphicon-ok"></span>
+          </div>
+          <div class="btn alert-danger list-alert" role="alert" ng-show="superList.showError">
+            Echec de l'enregistrement <span class="glyphicon glyphicon-cross"></span>
+          </div>
         </form>
       </div>
 

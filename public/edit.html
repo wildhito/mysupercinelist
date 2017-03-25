@@ -19,7 +19,7 @@
         {{superList.brief}}
       </p>
 
-      <div class="form-group text-center">
+      <div class="form-group text-center" ng-hide="superList.notAuthorized">
         <form class="form-horizontal" ng-submit="superList.addMovie()">
           <div class="form-group">
             <label class="col-sm-2 control-label">Titre</label>
@@ -37,6 +37,7 @@
             <label class="control-label">
               Public
               <input type="checkbox" class="" ng-model="superList.public">
+              <a href="index.html?id={{superList.id}}" target="_blank" ng-if="superList.public">Cliquer pour voir ma liste publique</a>
             </label>
           </div>
           <div class="form-group">

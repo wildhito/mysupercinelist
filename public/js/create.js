@@ -10,10 +10,12 @@ angular.module('superApp', [])
                    "title": superList.title,
                    "brief": superList.brief,
                  }
-      ).then(function() {
-        
+      ).then(function(response) {
+        superList.magic = response.data.magic;
+        superList.id = response.data.id;
+        superList.showMagicLinks = true;
+        superList.showSuccess = true; 
       }, function() {
-        console.log("error");
         superList.showError = true;
         superList.saveDisabled = false;
         $timeout(() => superList.showError = false, 3000);

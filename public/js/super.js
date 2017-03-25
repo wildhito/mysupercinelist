@@ -70,7 +70,7 @@ angular.module('superApp', [])
     // remote list update
     superList.updateList = function() {
      superList.saveDisabled = true; 
-     $http.put('http://localhost:8000/list/' + superList.id,
+     $http.put('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic,
                 {
                   "title": superList.title,
                   "brief": superList.brief,
@@ -95,23 +95,32 @@ angular.module('superApp', [])
         if (!superList.enableReco) {
             return;
         }
-        $http.get('http://localhost:8000/reco/' + superList.id)
+        $http.post('http://localhost:8000/reco/' + superList.id)
              .then(function(response) {
             superList.recos = response.data.recos;
             superList.enableReco = false;
         });
     }
 
-    superList.id = getParameterByName('id', 1);
-
+    superList.id = getParameterByName('id', 6);
+    superList.urlMagic = getParameterByName('m', '');
   
-    $http.get('http://localhost:8000/list/' + superList.id)
+    $http.get('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic)
          .then(function(response) {
         superList.title = response.data.name;
         superList.brief = response.data.brief;
         superList.public = (response.data.public == 1);
         superList.movies = JSON.parse(response.data.movies);
         superList.recos = response.data.recos;
+      }, function(response) {
+        superList.notAuthorized = true;
+        if (response.status == 403) {
+          superList.title = "Accès réservé";
+        } else if (response.status == 404) {
+          superList.title = "Perdu ?";
+        } else {
+          superList.title = "Erreur";
+        }
       });
 
   });  // end controller

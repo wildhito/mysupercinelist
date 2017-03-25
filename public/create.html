@@ -37,6 +37,14 @@
         </form>
       </div>
 
+      <div ng-show="superList.showSuccess">
+         <p>
+           <strong>Liste {{superList.title}} enregistrée !</strong><br>
+           Conservez ce lien précieusement :
+           <a href="/edit.html?id={{superList.id}}&m={{superList.magic}}" target="_blank">Administration de ma super liste</a>
+         </p>
+      </div>
+
     </div>
   </body>
 </html>

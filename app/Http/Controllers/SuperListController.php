@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class SuperListController extends Controller
 {
-    public function getList($id)
+    public function getList(Request $request, $id)
     {
         $results = app('db')->select("SELECT l.name, l.brief, l.movies, count(r.userHash) as recos,
                                       l.public, l.official, l.createdAt, l.modifiedAt
@@ -17,7 +17,12 @@ class SuperListController extends Controller
             abort(404);
         }
 
-        return json_encode($results[0]);
+        $list = $results[0];
+        if (!$list->public) {
+          $this->requireMagic($request, $id);
+        }
+
+        return json_encode($list);
     }
 
     public function createList(Request $request)
@@ -27,12 +32,23 @@ class SuperListController extends Controller
         if (!$name || !$brief) {
             abort(500, "Bad arguments");
         }
-        app('db')->insert("INSERT INTO list(name, brief, createdAt, modifiedAt)
-                           VALUES ('$name', '$brief', now(), now())");
+        $magic = $this->generateMagic();
+        $dbRes = app('db')->insert("INSERT INTO list(name, brief, createdAt, modifiedAt, magic)
+                                    VALUES ('$name', '$brief', now(), now(), '$magic')");
+        if (!$dbRes) {
+          abort(500, "DB error");
+        }
+        $id = app('db')->connection()->getPDO()->lastInsertId();
+        $response = [
+          "id"    => $id,
+          "magic" => $magic,
+        ];
+        return json_encode($response);
     }
 
     public function updateList(Request $request, $id)
     {
+        $this->requireMagic($request, $id);
         $name = $this->sanitizeString($request->input('title'));
         $brief = $this->sanitizeString($request->input('brief'));
         $public = $this->sanitizeInteger($request->input('public'));
@@ -101,6 +117,34 @@ class SuperListController extends Controller
             ];
         }
         return json_encode($res);
+    }
+
+    private function generateMagic()
+    {
+      $salt = env('MAGIC_SALT', false);
+      if (!$salt) {
+        abort(500, 'Internal configuration error');
+      }
+      $data = openssl_random_pseudo_bytes(256) . $salt;
+      for ($i = 0; $i < 79; $i++) {
+        $data = hash("sha256", $data);
+      }
+      return $data;
+    }
+
+    private function requireMagic(Request $request, $id)
+    {
+       $magic = $this->sanitizeString($request->input("m"));
+       if ($magic == '') {
+         abort(403);
+       }
+       $dbRes = app('db')->select("SELECT id
+                                   FROM list
+                                   WHERE id = $id
+                                   AND magic = '$magic'");
+      if (!$dbRes) {
+        abort(403);
+      }
     }
 }
 

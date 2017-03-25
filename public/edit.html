@@ -14,11 +14,11 @@
     <h1 class="text-center"><a href="index.html">MySuperCineList</a></h1>
 
     <div id="superListControllerID" class="text-center" ng-controller="SuperListController as superList">
-      <h2>- <a href="index.html">{{superList.title}}</a> -</h2>
-      <p class="list-brief">
-        {{superList.brief}}
+      <h2>- {{superList.title}} -</h2>
+      <p class="reminder">
+        N'oublie pas de conserver précieusement cette adresse :<br>
+        {{superList.currentUrl}}
       </p>
-
       <div class="form-group text-center" ng-hide="superList.notAuthorized">
         <form class="form-horizontal" ng-submit="superList.addMovie()">
           <div class="form-group">

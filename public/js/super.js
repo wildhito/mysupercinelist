@@ -1,6 +1,7 @@
 angular.module('superApp', [])
   .controller('SuperListController', function($http, $timeout) {
     var superList = this;
+    var defaultId = 8;
 
     // local add movie
     superList.addMovie = function() {
@@ -118,8 +119,9 @@ angular.module('superApp', [])
         });
     }
 
-    superList.id = getParameterByName('id', 6);
+    superList.id = getParameterByName('id', defaultId);
     superList.urlMagic = getParameterByName('m', '');
+    superList.currentUrl = window.location.href;
   
     $http.get('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic)
          .then(function(response) {

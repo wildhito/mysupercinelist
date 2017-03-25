@@ -88,6 +88,7 @@ angular.module('superApp', [])
       });
     }
 
+    superList.newMovieTitle = '';
     superList.enableReco = true;
 
     superList.reco = function() {

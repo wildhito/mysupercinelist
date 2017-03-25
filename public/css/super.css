@@ -33,6 +33,11 @@ a:hover {
   text-decoration: none;
 }
 
+.inputMovieTitle {
+  display: inline-block;
+  color: black;
+}
+
 .recos {
   float: right;
   font-size: 2em;

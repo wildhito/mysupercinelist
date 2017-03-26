@@ -33,8 +33,9 @@ class SuperListController extends Controller
             abort(500, "Bad arguments");
         }
         $magic = $this->generateMagic();
+        $magicHash = $this->hashMagic($magic, env('MAGIC_ROUND_2', 10));
         $dbRes = app('db')->insert("INSERT INTO list(name, brief, createdAt, modifiedAt, magic)
-                                    VALUES ($name, $brief, now(), now(), '$magic')");
+                                    VALUES ($name, $brief, now(), now(), '$magicHash')");
         if (!$dbRes) {
           abort(500, "DB error");
         }
@@ -131,7 +132,14 @@ class SuperListController extends Controller
         abort(500, 'Internal configuration error');
       }
       $data = openssl_random_pseudo_bytes(256) . $salt;
-      for ($i = 0; $i < 79; $i++) {
+      $magic = $this->hashMagic($data, env('MAGIC_ROUND_1', 5));
+      return $magic;
+    }
+
+    private function hashMagic($magic, $rounds)
+    {
+      $data = $magic;
+      for ($i = 0; $i < $rounds; $i++) {
         $data = hash("sha256", $data);
       }
       return $data;
@@ -143,10 +151,11 @@ class SuperListController extends Controller
        if ($magic == '') {
          abort(403);
        }
+       $magicHash = $this->hashMagic(trim($magic, "'"), env('MAGIC_ROUND_2', 10));
        $dbRes = app('db')->select("SELECT id
                                    FROM list
                                    WHERE id = $id
-                                   AND magic = $magic");
+                                   AND magic = '$magicHash'");
       if (!$dbRes) {
         abort(403);
       }

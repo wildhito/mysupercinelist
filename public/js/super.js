@@ -11,6 +11,10 @@ angular.module('superApp', [])
       if (superList.movies == null) {
         superList.movies = [];
       }
+      if (superList.movies.length >= 100) {
+        alert("Vous ne pouvez pas enregistrer plus de 100 films par liste");
+        return;
+      }
       superList.movies.push({title:superList.newMovieTitle, rank:superList.movies.length == 0 ? 1 : 0});
       superList.newMovieTitle = '';
       superList.refresh();

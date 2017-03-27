@@ -32,6 +32,9 @@ class SuperListController extends Controller
         if (!$name || !$brief) {
             abort(500, "Bad arguments");
         }
+        if (strlen($name) > 62 || strlen($brief) > 510) {
+            abort(500, "Too long arguments");
+        }
         $magic = $this->generateMagic();
         $magicHash = $this->hashMagic($magic, env('MAGIC_ROUND_2', 10));
         $dbRes = app('db')->insert("INSERT INTO list(name, brief, createdAt, modifiedAt, magic)
@@ -56,6 +59,9 @@ class SuperListController extends Controller
         $official = 0;
         if (!$name || !$brief) {
             abort(500, "Bad arguments");
+        }
+        if (strlen($name) > 62 || count($brief) > 510) {
+            abort(500, "Too long arguments");
         }
         $movies = $this->sanitizeMovies($request->input('movies'));
         app('db')->update("UPDATE list 
@@ -110,6 +116,9 @@ class SuperListController extends Controller
         $movies = json_decode($userInput);
         if (!is_array($movies)) {
             return null;
+        }
+        if (count($movies) > 100) {
+            abort(500, "Too much movies");
         }
 
         $res = array();

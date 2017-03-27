@@ -24,13 +24,13 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">Titre</label>
             <div class="col-sm-9">
-              <input type="text" ng-model="superList.title" class="form-control" value="{{superList.title}}" placeholder="Titre de la liste">
+              <input type="text" ng-model="superList.title" class="form-control" value="{{superList.title}}" placeholder="Titre de la liste" maxlength="64">
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">Accroche</label>
             <div class="col-sm-9">
-              <textarea ng-model="superList.brief" class="form-control" placeholder="Description de la liste">{{superList.brief}}</textarea>
+              <textarea ng-model="superList.brief" class="form-control" placeholder="Description de la liste" maxlength="512">{{superList.brief}}</textarea>
             </div>
           </div>
           <div class="form-group">
@@ -42,7 +42,7 @@
           </div>
           <div class="form-group">
               <div class="text-center">
-                <input type="text" ng-model="superList.newMovieTitle" class="inputMovieTitle" placeholder="Ajouter un film">
+                <input type="text" ng-model="superList.newMovieTitle" class="inputMovieTitle" placeholder="Ajouter un film" maxlength="64">
                 <button class="btn btn-default" type="submit">
                   <span class="glyphicon glyphicon-plus"></span>
                 </button>

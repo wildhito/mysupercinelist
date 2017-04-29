@@ -2,6 +2,7 @@ angular.module('superApp', [])
   .controller('SuperListController', function($http, $timeout) {
     var superList = this;
     var defaultId = 8;
+    var superHost = "http://localhost:8000/";
 
     // local add movie
     superList.addMovie = function() {
@@ -73,7 +74,7 @@ angular.module('superApp', [])
     // remote list update
     superList.updateList = function() {
      superList.saveDisabled = true; 
-     $http.put('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic,
+     $http.put(superHost + 'list/' + superList.id + '?m=' + superList.urlMagic,
                 {
                   "title": superList.title,
                   "brief": superList.brief,
@@ -97,7 +98,7 @@ angular.module('superApp', [])
         return;
       }
       superList.removeDisabled = true;
-      $http.delete('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic)
+      $http.delete(superHost + 'list/' + superList.id + '?m=' + superList.urlMagic)
            .then(function() {
              window.location = "/";
            }, function() {
@@ -114,7 +115,7 @@ angular.module('superApp', [])
         if (!superList.enableReco) {
             return;
         }
-        $http.post('http://localhost:8000/reco/' + superList.id)
+        $http.post(superHost + 'reco/' + superList.id)
              .then(function(response) {
             superList.recos = response.data.recos;
             superList.enableReco = false;
@@ -125,7 +126,7 @@ angular.module('superApp', [])
     superList.urlMagic = getParameterByName('m', '');
     superList.currentUrl = window.location.href;
   
-    $http.get('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic)
+    $http.get(superHost + 'list/' + superList.id + '?m=' + superList.urlMagic)
          .then(function(response) {
         superList.title = response.data.name;
         superList.url = window.location.href;
@@ -144,7 +145,7 @@ angular.module('superApp', [])
         }
       });
 
-    $http.get('http://localhost:8000/lists')
+    $http.get(superHost + 'lists')
          .then(function(response) {
         superList.publicLists = response.data;
       }, function(response) {

@@ -27,12 +27,10 @@ angular.module('superApp', [])
           superList.movies.filter((m) => m.rank >= newRank)
                           .forEach((m) => m.rank++);
         } else {
-          console.log("Move down");
           superList.movies.filter((m) => m.rank > movie.rank && m.rank <= newRank)
                           .forEach((m) => m.rank--);  
         }
       } else if (newRank < movie.rank) {
-        console.log("Move up");
         superList.movies.filter((m) => m.rank < movie.rank && m.rank >= newRank)
                         .forEach((m) => m.rank++);
       }

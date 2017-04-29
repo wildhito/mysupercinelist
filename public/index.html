@@ -18,46 +18,64 @@
       </nav>
     </header>
     <article>
-    <div id="superListControllerID" class="text-center" ng-controller="SuperListController as superList">
-      <h2>- {{superList.title}} -</h2>
-      <div class="recos">
-        {{superList.recos}} <a href="" title="J'adooore" ng-click="superList.reco()"><span class="glyphicon glyphicon-heart"></span></a>
-      </div>
-      <div style="clear:both;"></div>
-      <section>
-        <p class="list-brief">
-          {{superList.brief}}
-        </p>
-      </section>
 
+    <div class="container-fluid" ng-controller="SuperListController as superList">
+      <div class="row">
+        <div class="col-md-10 col-xs-12">
+          <div id="superListControllerID" class="text-center">
+            <h2>- {{superList.title}} -</h2>
+            <div class="recos">
+              {{superList.recos}} <a href="" title="J'adooore" ng-click="superList.reco()"><span class="glyphicon glyphicon-heart"></span></a>
+            </div>
+            <div style="clear:both;"></div>
+            <section>
+              <p class="list-brief">
+                {{superList.brief}}
+              </p>
+            </section>
 
+            <section>
+              <div class="container-fluid text-center">
+                <div ng-repeat="movie in superList.movies">
+                  <div class="movie" ng-if="movie.rank != 0">
+                    <span class="movie-rank">
+                      {{movie.rank}}
+                    </span>
+                    <br>
+                    <span class="movie-title">{{movie.title}}</span>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-      <section>
-        <div class="container-fluid text-center">
-          <div ng-repeat="movie in superList.movies">
-            <div class="movie" ng-if="movie.rank != 0">
-              <span class="movie-rank">
-                {{movie.rank}}
-              </span>
-              <br>
-              <span class="movie-title">{{movie.title}}</span>
+          </div>
+
+          <div class="social">
+            <a class="twitter-share-button"
+               href="https://twitter.com/share"
+               data-url="{{superList.url}}"
+               data-text="{{superList.title}}">
+              Tweet
+            </a>
+            <br>
+            <div class="fb-share-button" data-href="{{superList.url}}" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmonsite%2F&amp;src=sdkpreparse">Partager</a>
             </div>
           </div>
-        </div>
-      </section>
+        <div style="clear:both;"></div>
+      </div>
 
-    </div>
-
-    <div class="social">
-      <a class="twitter-share-button"
-         href="https://twitter.com/intent/tweet?text={{superList.uriEncodedTitle}}">
-        Tweet
-      </a>
-      <br>
-      <div class="fb-share-button" data-href="http://mysuperlist.com/index.html?id={{superList.id}}" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmonsite%2F&amp;src=sdkpreparse">Partager</a>
+      <div class="col-md-2 col-xs-12">
+        <h2 class="menu-header">Dernières super listes</h2>
+        <nav class="menu">
+          <ul>
+            <li ng-repeat="publicList in superList.publicLists">
+                <a href="?id={{publicList.id}}">{{publicList.name}}</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
-  <div style="clear:both;"></div>
+  </div>
 
   <script>
 window.twttr = (function(d, s, id) {

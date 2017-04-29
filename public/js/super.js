@@ -130,7 +130,7 @@ angular.module('superApp', [])
     $http.get('http://localhost:8000/list/' + superList.id + '?m=' + superList.urlMagic)
          .then(function(response) {
         superList.title = response.data.name;
-        superList.uriEncodedTitle = encodeURI(superList.title);
+        superList.url = window.location.href;
         superList.brief = response.data.brief;
         superList.public = (response.data.public == 1);
         superList.movies = JSON.parse(response.data.movies);
@@ -144,6 +144,13 @@ angular.module('superApp', [])
         } else {
           superList.title = "Erreur";
         }
+      });
+
+    $http.get('http://localhost:8000/lists')
+         .then(function(response) {
+        superList.publicLists = response.data;
+      }, function(response) {
+        superList.publicLists = {};
       });
 
   });  // end controller

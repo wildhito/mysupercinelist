@@ -4,6 +4,8 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
+$app->get('lists', 'SuperListController@getLists');
+
 $app->get('list/{id:[0-9]+}', 'SuperListController@getList');
 
 $app->post('list', 'SuperListController@createList');

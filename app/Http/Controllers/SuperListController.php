@@ -6,6 +6,16 @@ use Illuminate\Http\Request;
 
 class SuperListController extends Controller
 {
+    public function getLists(Request $request)
+    {
+      $results = app('db')->select("SELECT l.id, l.name 
+                                    FROM list l
+                                    WHERE l.public = 1
+                                    ORDER BY l.modifiedAt DESC
+                                    LIMIT 0, 15");
+      return json_encode($results);
+    }
+
     public function getList(Request $request, $id)
     {
         $results = app('db')->select("SELECT l.name, l.brief, l.movies, count(r.userHash) as recos,

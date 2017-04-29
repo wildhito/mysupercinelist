@@ -33,6 +33,12 @@ a:hover {
   text-decoration: none;
 }
 
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
 .inputMovieTitle {
   display: inline-block;
   color: black;
@@ -63,10 +69,21 @@ a:hover {
 .btn,
 .list-brief,
 .list-alert,
+.menu-header,
 .reminder {
   font-family: "Lucida Console", Monaco, monospace;
+  text-align: center;
 }
 
+.menu-header {
+  font-size: 1em;
+}
+
+.menu {
+  text-align: center;
+}
+
+.menu-header,
 .reminder {
   color: white;
   font-weight: bold;

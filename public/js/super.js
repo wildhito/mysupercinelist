@@ -1,8 +1,8 @@
 angular.module('superApp', [])
   .controller('SuperListController', function($http, $timeout) {
     var superList = this;
-    var defaultId = 8;
-    var superHost = "http://localhost:8000/";
+    var defaultId = 1;
+    var superHost = "http://www.mysuperlist.info/";
 
     // local add movie
     superList.addMovie = function() {
@@ -165,15 +165,13 @@ function getParameterByName(name, defaultValue) {
 }
 
 function drag(ev) {
-  console.log(ev.originalTarget.getElementsByClassName('movie')[0]);
-
   ev.dataTransfer.setData(
     'title',
-    ev.originalTarget.getElementsByClassName('movie')[0].getAttribute("data-movie-title")
+    ev.target.getElementsByClassName('movie')[0].getAttribute("data-movie-title")
   );
   ev.dataTransfer.setData(
     'rank',
-    ev.originalTarget.getElementsByClassName('movie')[0].getAttribute("data-movie-rank")
+    ev.target.getElementsByClassName('movie')[0].getAttribute("data-movie-rank")
   );
 }
 

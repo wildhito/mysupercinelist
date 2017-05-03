@@ -14,12 +14,10 @@ h2 {
 }
 
 h1 {
-  font-size: 7em;
   margin-bottom: 15px;
 }
 
 h2 {
-  font-size: 3em;
   margin-bottom: 10px;
 }
 
@@ -46,7 +44,6 @@ ul {
 
 .recos {
   float: right;
-  font-size: 2em;
   font-family: FrontageCondensed-Outline, Times, serif;
   margin-right: 30px;
 }
@@ -73,10 +70,7 @@ ul {
 .reminder {
   font-family: "Lucida Console", Monaco, monospace;
   text-align: center;
-}
-
-.menu-header {
-  font-size: 1em;
+  word-wrap: break-word;
 }
 
 .menu {
@@ -91,7 +85,6 @@ ul {
 
 .movie-rank {
   font-family: FrontageCondensed-Outline, Times, serif;
-  font-size: 1.875em;
 }
 
 .movie-title {
@@ -157,4 +150,93 @@ ul {
 
 .movie:hover::after {
     opacity: 1;
+}
+
+/** small screens **/
+
+h1 {
+  font-size: 9em;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: 6em;
+}
+
+.form-control {
+  height: 3em;
+  margin-left: 1em;
+}
+
+.recos {
+  font-size: 5em;
+}
+
+.btn {
+  font-size: 2em;
+}
+
+.control-label,
+.inputMovieTitle,
+.form-control,
+.confirmation,
+.menu,
+.list-brief,
+.reminder,
+.social,
+.menu-header {
+  font-size: 3em;
+}
+
+.movie-rank {
+  font-size: 7em;
+}
+
+.movie-title {
+  font-size: 3em;
+}
+
+/** big screens */
+
+@media (min-width: 1200px) {
+  h1 {
+    font-size: 5em;
+    line-height: 1.3;
+  }
+
+  h2 {
+    font-size: 3em;
+  }
+
+  .form-control {
+    height: 1.5em;
+  }
+
+  .btn {
+    font-size: 1em;
+  }
+
+  .control-label,
+  .form-control,
+  .confirmation,
+  .inputMovieTitle,
+  .menu,
+  .social,
+  .list-brief,
+  .reminder,
+  .menu-header {
+    font-size: 1.5em;
+  }
+
+  .movie-rank {
+    font-size: 3.5em;
+  }
+
+  .recos {
+    font-size: 2.5em;
+  }
+
+  .movie-title {
+    font-size: 1.5em;
+  }
 }

@@ -1,8 +1,8 @@
 angular.module('superApp', [])
   .controller('SuperListController', function($http, $timeout) {
     var superList = this;
-    var defaultId = 1;
-    var superHost = "http://www.mysuperlist.info/";
+    var defaultId = 12;
+    var superHost = "http://localhost:8000/";
 
     // local add movie
     superList.addMovie = function() {

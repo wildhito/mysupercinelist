@@ -1,3 +1,13 @@
+html {
+  font-size: 16px;
+}
+
+@media (min-width: 1200px) {
+  html {
+    font-size: 10px;
+  }
+}
+
 body {
   background-color: #00000f;
   color: orange;
@@ -152,28 +162,28 @@ ul {
     opacity: 1;
 }
 
-/** small screens **/
+/** font sizes **/
 
 h1 {
-  font-size: 9em;
+  font-size: 10rem;
   line-height: 1.2;
 }
 
 h2 {
-  font-size: 6em;
+  font-size: 7rem;
 }
 
 .form-control {
-  height: 3em;
-  margin-left: 1em;
+  height: 3rem;
+  margin-left: 1rem;
 }
 
 .recos {
-  font-size: 5em;
+  font-size: 5rem;
 }
 
 .btn {
-  font-size: 2em;
+  font-size: 2rem;
 }
 
 .control-label,
@@ -185,58 +195,13 @@ h2 {
 .reminder,
 .social,
 .menu-header {
-  font-size: 3em;
+  font-size: 2rem;
 }
 
 .movie-rank {
-  font-size: 7em;
+  font-size: 7rem;
 }
 
 .movie-title {
-  font-size: 3em;
-}
-
-/** big screens */
-
-@media (min-width: 1200px) {
-  h1 {
-    font-size: 5em;
-    line-height: 1.3;
-  }
-
-  h2 {
-    font-size: 3em;
-  }
-
-  .form-control {
-    height: 1.5em;
-  }
-
-  .btn {
-    font-size: 1em;
-  }
-
-  .control-label,
-  .form-control,
-  .confirmation,
-  .inputMovieTitle,
-  .menu,
-  .social,
-  .list-brief,
-  .reminder,
-  .menu-header {
-    font-size: 1.5em;
-  }
-
-  .movie-rank {
-    font-size: 3.5em;
-  }
-
-  .recos {
-    font-size: 2.5em;
-  }
-
-  .movie-title {
-    font-size: 1.5em;
-  }
+  font-size: 2rem;
 }

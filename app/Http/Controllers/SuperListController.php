@@ -31,7 +31,7 @@ class SuperListController extends Controller
         if (!$list->public) {
           $this->requireMagic($request, $id);
         }
-
+        $list->movies = base64_decode($list->movies);
         return json_encode($list);
     }
 
@@ -136,12 +136,13 @@ class SuperListController extends Controller
             if (!property_exists($movie, "title") || !property_exists($movie, "rank")) {
                 continue;
             }
+            $title = strip_tags(trim($movie->title));
             $res[] = [
-                "title" => trim($this->sanitizeString($movie->title), "'"),
+                "title" => $title,
                 "rank"  => $this->sanitizeInteger($movie->rank),
             ];
         }
-        return json_encode($res);
+        return base64_encode(json_encode($res));
     }
 
     private function generateMagic()
